@@ -13,4 +13,6 @@ There is also a CompositeCommand for user defined sequences of commands, called 
 and programmable multiple Commands
 ## Tests
 Tests are provided in package de.gerdhirsch.undoredo.test for
-UndoRedoManager and CompositeCommand
+UndoRedoManager and CompositeCommand  
+and are usage examples based on a simple Calculator and Plus and Minus Commands  
+Common Test Base is class UndoRedoTest
