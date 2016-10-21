@@ -1,5 +1,7 @@
 # Undo Redo Framework
-A detailed documentation is found in my OODPScript.pdf
+A detailed documentation is found in my OODPScript.pdf  
+Ask for Workshops and Scripts 
+
 ## Command Pattern (GoF)
 This Framework is based on the Design Pattern of the GoF  
 called Command Pattern  
@@ -11,6 +13,9 @@ UndoRedoStack is the common infrastructure for UndoRedoManager and CompositeComm
 ## Composite Pattern (GoF)
 There is also a CompositeCommand for user defined sequences of commands, called makros 
 and programmable multiple Commands
+
 ## Tests
 Tests are provided in package de.gerdhirsch.undoredo.test for
-UndoRedoManager and CompositeCommand
+UndoRedoManager and CompositeCommand  
+and are usage examples based on a simple Calculator and Plus and Minus Commands  
+Common Test Base is class UndoRedoTest
