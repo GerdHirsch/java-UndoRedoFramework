@@ -1,6 +1,6 @@
 # Undo Redo Framework
 A detailed documentation is found in my OODPScript.pdf  
-Ask for Workshops and Scripts 
+Ask for Workshops and Scripts at http://www.gerdhirsch.de/SeminarOOAnalyseUML.html
 
 ## Command Pattern (GoF)
 This Framework is based on the Design Pattern of the GoF  
@@ -15,8 +15,9 @@ There is also a CompositeCommand for user defined sequences of commands, called 
 and programmable multiple Commands
 
 ## Tests
-Tests are provided in package de.gerdhirsch.undoredo.test for
-UndoRedoManager and CompositeCommand  
+Tests are provided in package de.gerdhirsch.undoredo.test
+using hamcrest assertThat(..) for
+UndoRedoStack, UndoRedoManager and CompositeCommand  
 and are usage examples based on a simple Calculator and Plus and Minus Commands  
 Common Test Base is class UndoRedoTest
 
