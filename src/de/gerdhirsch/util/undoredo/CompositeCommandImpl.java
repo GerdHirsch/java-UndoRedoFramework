@@ -5,8 +5,8 @@ import de.gerdhirsch.util.undoredo.Command;
 /**
  * @author Marci, Gerd
  */
-public class CompositeCommand implements Command{
-    public CompositeCommand(UndoRedoStack urStack) {
+public class CompositeCommandImpl implements Command{
+    public CompositeCommandImpl(UndoRedoStack urStack) {
     	//Precondition
     	if(urStack == null) 
     		throw new IllegalArgumentException("urStack must not be null");
@@ -53,7 +53,7 @@ public class CompositeCommand implements Command{
     UndoRedoStack urStack = null;
 	
 //	public Object clone() throws CloneNotSupportedException{
-//		CompositeCommand retVal = (CompositeCommand) super.clone();
+//		CompositeCommandImpl retVal = (CompositeCommandImpl) super.clone();
 //		retVal.urha = (UndoRedoManager) urStack.clone();
 //		
 //		return retVal;

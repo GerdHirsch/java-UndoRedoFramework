@@ -8,17 +8,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import de.gerdhirsch.util.undoredo.CompositeCommand;
+import de.gerdhirsch.util.undoredo.CompositeCommandImpl;
 import de.gerdhirsch.util.undoredo.UndoRedoStackImpl;
 
 public class CompositeCommandTest extends UndoRedoTest {
 
-	CompositeCommand ccmd;
+	CompositeCommandImpl ccmd;
 	
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		ccmd = new CompositeCommand(new UndoRedoStackImpl());
+		ccmd = new CompositeCommandImpl(new UndoRedoStackImpl());
 	}
 
 	@Rule
@@ -27,7 +27,7 @@ public class CompositeCommandTest extends UndoRedoTest {
 	@Test()
 	public final void testCommandComposite() {
 		thrown.expect(IllegalArgumentException.class);
-		new CompositeCommand(null);
+		new CompositeCommandImpl(null);
 	}
 
 	@Test
