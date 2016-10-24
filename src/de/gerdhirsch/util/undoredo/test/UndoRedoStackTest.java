@@ -14,19 +14,20 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	@Test
 	public final void testDoIt() throws Exception {
 		urMngr.doIt(plus);
-		assertThat(plusValue, is(calculator.getResult()));
-		assertThat(true, is(urMngr.isUndoable()));
-		assertThat(false, is(urMngr.isRedoable()));
+
+		assertThat(calculator.getResult(), is(plusValue));
+		assertThat(urMngr.isUndoable(), is(true));
+		assertThat(urMngr.isRedoable(), is(false));
 	}
 	@Test
-	public final void testDoItWithExceptioni() throws Exception {
+	public final void testDoItWithException() throws Exception {
 		Plus.throwException = true;
 		try{
 			urMngr.doIt(plus);
 		}catch(Exception e){}
 		
-		assertThat(false, is(urMngr.isUndoable()));
-		assertThat(false, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(false));
+		assertThat(urMngr.isRedoable(), is(false));
 	}
 
 	@Test
@@ -34,10 +35,10 @@ public class UndoRedoStackTest extends UndoRedoTest {
 		urMngr.doIt(plus);
 		urMngr.undo();
 		
-		assertThat(0, is(calculator.getResult()));	
+		assertThat(calculator.getResult(), is(0));	
 		
-		assertThat(false, is(urMngr.isUndoable()));
-		assertThat(true, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(false));
+		assertThat(urMngr.isRedoable(), is(true));
 	}
 	@Test
 	public final void testUndoWithException() throws Exception {
@@ -47,10 +48,10 @@ public class UndoRedoStackTest extends UndoRedoTest {
 			urMngr.undo();
 		}catch(Exception e){}
 		
-		assertThat(plusValue, is(calculator.getResult()));	
+		assertThat(calculator.getResult(), is(plusValue));	
 		
-		assertThat(true, is(urMngr.isUndoable()));
-		assertThat(false, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(true));
+		assertThat(urMngr.isRedoable(), is(false));
 	}
 
 	@Test
@@ -58,17 +59,17 @@ public class UndoRedoStackTest extends UndoRedoTest {
 		urMngr.doIt(plus);
 		urMngr.undo();
 		
-		assertThat(false, is(urMngr.isUndoable()));
-		assertThat(true, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(false));
+		assertThat(urMngr.isRedoable(), is(true));
 		
-		assertThat(0, is(calculator.getResult()));	
+		assertThat(calculator.getResult(), is(0));	
 
 		urMngr.redo();
 
-		assertThat(plusValue, is(calculator.getResult()));	
+		assertThat(calculator.getResult(), is(plusValue));	
 		
-		assertThat(true, is(urMngr.isUndoable()));
-		assertThat(false, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(true));
+		assertThat(urMngr.isRedoable(), is(false));
 	}
 	
 	@Test
@@ -80,23 +81,23 @@ public class UndoRedoStackTest extends UndoRedoTest {
 			urMngr.redo();
 		}catch(Exception e){}
 		
-		assertThat(0, is(calculator.getResult()));	
+		assertThat(calculator.getResult(), is(0));	
 		
-		assertThat(false, is(urMngr.isUndoable()));
-		assertThat(true, is(urMngr.isRedoable()));
+		assertThat(urMngr.isUndoable(), is(false));
+		assertThat(urMngr.isRedoable(), is(true));
 	}
 
 	@Test
 	public final void testIsUndoable() throws Exception {
 		urMngr.doIt(plus);
-		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(urMngr.isUndoable(), is(true));
 	}
 
 	@Test
 	public final void testIsRedoable() throws Exception {
 		urMngr.doIt(plus);
 		urMngr.undo();
-		assertThat(true, is(urMngr.isRedoable()));
+		assertThat(urMngr.isRedoable(), is(true));
 	}
 
 }

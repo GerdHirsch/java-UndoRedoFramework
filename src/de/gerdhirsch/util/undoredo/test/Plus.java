@@ -6,7 +6,9 @@ public class Plus implements Command, Cloneable {
 
 	private Calculator calculator;
 	private int summand;
+	
 	static boolean throwException = false;
+	
 	Plus(Calculator calculator, int summand){
 		this.calculator = calculator;
 		this.summand = summand;

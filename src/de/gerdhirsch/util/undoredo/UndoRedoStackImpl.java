@@ -40,5 +40,28 @@ public class UndoRedoStackImpl implements UndoRedoStack {
 		redoStack.clear();
 	}
 	protected int undoStackSize(){ return undoStack.size();}
+	
+
+//	@SuppressWarnings("unchecked")
+//	public Object clone() throws CloneNotSupportedException {
+//		UndoRedoManagerImpl retVal = (UndoRedoManagerImpl) super.clone();
+//
+//		retVal.redoStack = deepCopy(redoStack);
+//		retVal.undoStack = deepCopy(undoStack);
+//		assert (redoStack.isEmpty() == retVal.redoStack.isEmpty());
+//		assert (undoStack.isEmpty() == retVal.undoStack.isEmpty());
+//
+//		return retVal;
+//	}
+
+//	private Stack<Command> deepCopy(Stack<Command> stack)
+//			throws CloneNotSupportedException {
+//		Stack<Command> retVal = new Stack<Command>();
+//		Command[] commands = new Command[stack.size()];
+//		stack.copyInto(commands);
+//		for (int i = 0; i < commands.length; i++)
+//			retVal.push((Command) commands[i].clone());
+//		return retVal;
+//	}
 
 }
