@@ -12,40 +12,6 @@ import static org.hamcrest.Matchers.is;
 public class UndoRedoManagerTest extends UndoRedoTest {
 
 	@Test
-	public final void testDoIt() throws Exception {
-		urMngr.doIt(plus);
-		assertThat(plusValue, is(calculator.getResult()));
-	}
-	
-	@Test
-	public final void testUndo() throws Exception {
-		urMngr.doIt(plus);
-		urMngr.undo();
-		assertThat(0, is(calculator.getResult()));	
-	}
-
-	@Test
-	public final void testRedo() throws Exception {
-		urMngr.doIt(plus);
-		urMngr.undo();
-		urMngr.redo();
-		assertThat(plusValue, is(calculator.getResult()));	
-	}
-
-	@Test
-	public final void testIsUndoable() throws Exception {
-		urMngr.doIt(plus);
-		assertThat(true, is(urMngr.isUndoable()));
-	}
-
-	@Test
-	public final void testIsRedoable() throws Exception {
-		urMngr.doIt(plus);
-		urMngr.undo();
-		assertThat(true, is(urMngr.isRedoable()));
-	}
-
-	@Test
 	public final void testIsModifiedSimple() throws Exception {
 		// initial modified Count == 0
 		assertThat(false, is(urMngr.isModified()));

@@ -23,7 +23,6 @@ public class CompositeCommandTest extends UndoRedoTest {
 
 	@Rule
 	public ExpectedException thrown = ExpectedException.none();
-//	public ExpectedException thrown = ExpectedException.none().expect(IllegalArgumentException.class);
 	
 	@Test()
 	public final void testCommandComposite() {
