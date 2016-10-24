@@ -6,14 +6,14 @@ package de.gerdhirsch.util.undoredo;
  */
 public interface Command {
 	/**
-	 * führt ein Command aus
+	 * executes the Command
+	 * @throws Exception thrown by the Implementation
 	 */
 	void doIt() throws Exception;
 
 	/**
-	 * Macht das Command rückgängig
+	 * revert the Command
+	 * @throws Exception thrown by the Implementation
 	 */
 	void undo() throws Exception;
-
-	//Object clone() throws CloneNotSupportedException;
 }

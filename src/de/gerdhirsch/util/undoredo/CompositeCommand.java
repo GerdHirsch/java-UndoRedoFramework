@@ -19,22 +19,13 @@ public class CompositeCommand implements Command{
 	 * nach dem sie rückgängig gemacht wurden
 	 * @see undo()
      * 
-     * @throws Exception
+     * @throws Exception thrown by the one of the Commands
      */
     public void doIt() throws Exception {
         while (urStack.isRedoable()) {
             urStack.redo();
         }
     }
-
-    /**
-     * Commands müssen in der umgekehrten Reihenfolge rückgängig gemacht werden,
-     * wie sie ausgeführt wurden! 
-     * Dazu wird ein UndoRedoStack benutzt.
-     * 
-     * @directed true
-     * @supplierRole Command Manager
-     */
     public void undo() throws Exception {
         while (urStack.isUndoable()) {
             urStack.undo();

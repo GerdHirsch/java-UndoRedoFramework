@@ -108,5 +108,83 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 		urMngr.resetModified();
 		assertThat(false, is(urMngr.isModified()));
 	}
+	
+	@Test
+	public final void testisModifiedtwithExceptiondoIt() throws Exception {
+		// initial modified Count == 0
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(false, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
 
+		Plus.throwException = true;
+		
+		try{
+			urMngr.doIt(plus);
+		}catch (Exception e){
+			System.out.println("catch: " + e.getMessage());
+		}
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(false, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
+	}
+	@Test
+	public final void testisModifiedtwithExceptionUndo() throws Exception {
+		// initial modified Count == 0
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(false, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
+		
+		urMngr.doIt(plus);
+		assertThat(true, is(urMngr.isModified()));
+		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
+
+		Plus.throwException = true;
+		
+		try{
+			urMngr.undo();
+		}catch (Exception e){
+			System.out.println("catch: " + e.getMessage());
+		}
+		assertThat(true, is(urMngr.isModified()));
+		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
+	}
+	@Test
+	public final void testisModifiedtwithExceptionRedo() throws Exception {
+		// initial modified Count == 0
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(false, is(urMngr.isUndoable()));
+		assertThat(false, is(urMngr.isRedoable()));
+		
+		urMngr.doIt(plus);
+		urMngr.doIt(plus);
+		urMngr.undo();
+		assertThat(true, is(urMngr.isModified()));
+		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(true, is(urMngr.isRedoable()));
+		
+		urMngr.resetModified();
+		assertThat(false, is(urMngr.isModified()));
+		
+		Plus.throwException = true;
+		
+		try{
+			urMngr.undo();
+		}catch (Exception e){
+			System.out.println("catch: " + e.getMessage());
+		}
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(true, is(urMngr.isRedoable()));
+		
+		try{
+			urMngr.redo();
+		}catch (Exception e){
+			System.out.println("catch: " + e.getMessage());
+		}
+		assertThat(false, is(urMngr.isModified()));
+		assertThat(true, is(urMngr.isUndoable()));
+		assertThat(true, is(urMngr.isRedoable()));
+	}
 }

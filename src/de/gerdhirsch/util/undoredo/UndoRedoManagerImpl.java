@@ -14,21 +14,22 @@ public class UndoRedoManagerImpl extends UndoRedoStackImpl implements UndoRedoMa
 		modifiedCount = 0;
 	}
 	public synchronized void undo() throws Exception {
-		modifiedCount--;
 		super.undo();
+		modifiedCount--;
 	}
 
 	public synchronized void redo() throws Exception {
-		modifiedCount++;
 		super.redo();
+		modifiedCount++;
 	}
 
 	public synchronized void doIt(Command c) throws Exception {
+		super.doIt(c);
 		if (modifiedCount < 0)
 			modifiedCount = undoStackSize() + 1;
-		modifiedCount++;
-		
-		super.doIt(c);
+		else
+			modifiedCount++;
+
 	}
 
 //	@SuppressWarnings("unchecked")

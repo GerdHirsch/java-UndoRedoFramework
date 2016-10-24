@@ -20,6 +20,7 @@ public class UndoRedoTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Plus.throwException = false;
 		calculator.clear();
 		urMngr = new UndoRedoManagerImpl();
 	}

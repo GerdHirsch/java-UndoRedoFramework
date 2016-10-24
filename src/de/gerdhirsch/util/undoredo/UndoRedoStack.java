@@ -3,35 +3,53 @@ package de.gerdhirsch.util.undoredo;
 public interface UndoRedoStack {
 
 	/**
-	 * sendet dem letzten ausgeführten Command undo
-	 * 
-	 * @throws Exception
+	 * undo last Command
+	 * @pre: Command don´t throw
+	 * @post: isRedoable() == true
+	 * @see #isRedoable()
+	 * @see #isUndoable()
+	 * if Command throws an Exception, UndoRedoStack stays unchanged
+	 * @throws Exception thrown by the Command
+	 * @see #redo()
 	 */
 	void undo() throws Exception;
 
 	/**
-	 * sendet dem letzten rückgängig gemachten Command redo
-	 * 
-	 * @throws Exception
+	 * redo last undone Command
+	 * @pre: Command don´t throw
+	 * @post: isUndoable() == true
+	 * @see #isRedoable()
+	 * @see #isUndoable()
+	 * if Command throws an Exception, UndoRedoStack stays unchanged
+	 * @throws Exception thrown by the Command
+	 * @see #undo()
 	 */
 	void redo() throws Exception;
-
 	/**
-	 * führt das übergebene Command c aus und stellt es für undo zur Verfügung
-	 * der redoStack wird gelöscht, isModified() liefert true.
-	 * @param c
-	 * @throws Exception
+	 * executes Command c
+	 * @pre: Command don´t throw
+	 * @post: isModified() == true
+	 * @post: isUndoable() == true
+	 * @post: isRedoable() == false
+	 * if Command throws an Exception, UndoRedoStack stays unchanged
+	 * @param c the Command to be executed
+	 * @throws Exception thrown by the Command
 	 */
 	void doIt(Command c) throws Exception;
 
 	/**
-	 * @return true, wenn undo ausführbar ist
+	 * @return true after doIt(Command c) or redo()
+	 * @see #doIt(Command c)
+	 * @see #redo()
 	 */
 	boolean isUndoable();
 
 	/**
-	 * @return true, wenn redo ausführbar ist. redo() ist nicht ausführbar
-	 * nach einer Sequenz von undo() und doIt(c), der redoStack wird gelöscht.
+	 * @return false after doIt(Command c)
+	 * @return true after undo()
+	 * @see #doIt(Command c)
+	 * @see #undo()
+	 * @see #redo()
 	 */
 	boolean isRedoable();
 
