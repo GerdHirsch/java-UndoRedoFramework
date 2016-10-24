@@ -4,7 +4,11 @@ import org.junit.Before;
 
 import de.gerdhirsch.util.undoredo.UndoRedoManager;
 import de.gerdhirsch.util.undoredo.UndoRedoManagerImpl;
-
+/**
+ * common base for undo redo component tests
+ * @author Gerd
+ *
+ */
 public class UndoRedoTest {
 
 	protected final Calculator calculator = new Calculator();
@@ -17,9 +21,15 @@ public class UndoRedoTest {
 	public UndoRedoTest() {
 		super();
 	}
-
+		
+	/**
+	 * Plus.throwException = false;
+	 * calculator.clear();
+	 * urMngr = new ...
+	 * @throws 
+	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		Plus.throwException = false;
 		calculator.clear();
 		urMngr = new UndoRedoManagerImpl();

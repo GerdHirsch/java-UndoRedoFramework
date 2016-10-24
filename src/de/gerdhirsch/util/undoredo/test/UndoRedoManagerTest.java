@@ -1,13 +1,11 @@
 package de.gerdhirsch.util.undoredo.test;
 
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import de.gerdhirsch.util.undoredo.UndoRedoManagerImpl;
-
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class UndoRedoManagerTest extends UndoRedoTest {
 
@@ -87,7 +85,7 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 		try{
 			urMngr.doIt(plus);
 		}catch (Exception e){
-			System.out.println("catch: " + e.getMessage());
+//			System.out.println("catch: " + e.getMessage());
 		}
 		assertThat(urMngr.isModified(), is(false));
 		assertThat(urMngr.isUndoable(), is(false));
@@ -110,7 +108,7 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 		try{
 			urMngr.undo();
 		}catch (Exception e){
-			System.out.println("catch: " + e.getMessage());
+//			System.out.println("catch: " + e.getMessage());
 		}
 		assertThat(urMngr.isModified(), is(true));
 		assertThat(urMngr.isUndoable(), is(true));
@@ -138,7 +136,7 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 		try{
 			urMngr.undo();
 		}catch (Exception e){
-			System.out.println("catch: " + e.getMessage());
+//			System.out.println("catch: " + e.getMessage());
 		}
 		assertThat(urMngr.isModified(), is(false));
 		assertThat(urMngr.isUndoable(), is(true));
@@ -147,10 +145,37 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 		try{
 			urMngr.redo();
 		}catch (Exception e){
-			System.out.println("catch: " + e.getMessage());
+//			System.out.println("catch: " + e.getMessage());
 		}
 		assertThat(urMngr.isModified(), is(false));
 		assertThat(urMngr.isUndoable(), is(true));
 		assertThat(urMngr.isRedoable(), is(true));
+	}
+	
+	@Rule
+	public ExpectedException thrown = ExpectedException.none();
+	
+	@Test()
+	public final void testdoItException() throws Exception {
+		thrown.expect(Exception.class);
+		Plus.throwException = true;
+		urMngr.doIt(plus);
+	}
+	
+	@Test()
+	public final void testUndoException() throws Exception {
+		thrown.expect(Exception.class);
+		urMngr.doIt(plus);
+		Plus.throwException = true;
+		urMngr.undo();
+	}
+	
+	@Test()
+	public final void testRedoException() throws Exception {
+		thrown.expect(Exception.class);
+		urMngr.doIt(plus);
+		urMngr.undo();
+		Plus.throwException = true;
+		urMngr.redo();
 	}
 }

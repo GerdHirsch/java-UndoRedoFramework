@@ -6,6 +6,10 @@ import de.gerdhirsch.util.undoredo.Command;
  * @author Marci, Gerd
  */
 public class CompositeCommandImpl implements Command, CompositeCommand {
+	private boolean exceptionCatched;
+	private boolean redoExceptionCatched;
+	private boolean undoExceptionCatched;
+
 	public CompositeCommandImpl(UndoRedoStack urStack) {
 		// Precondition
 		if (urStack == null)
@@ -21,8 +25,17 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 	 */
 	@Override
 	public void doIt() throws Exception {
-		while (urStack.isRedoable()) {
-			urStack.redo();
+		try{
+			while (urStack.isRedoable()) {
+					urStack.redo();
+			}
+		}catch(Throwable e){
+			redoExceptionCatched = true;
+			if(!undoExceptionCatched){
+				undo();
+				throw e;
+			}else
+				throw e;
 		}
 	}
 
@@ -33,10 +46,20 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 	 */
 	@Override
 	public void undo() throws Exception {
-		while (urStack.isUndoable()) {
-			urStack.undo();
+		try{
+			while (urStack.isUndoable()) {
+					urStack.undo();
+			}
+		}catch(Throwable e){
+			undoExceptionCatched = true;
+			if(!redoExceptionCatched){
+				doIt();
+				throw e;
+			}else
+				throw e;
 		}
 	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -51,15 +74,16 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 			urStack.doIt(c);
 		} catch (Throwable e) {
 			undo();
+			urStack.clear();
+			throw e;
 		}
+//		System.out.println("CompositeCommandImpl.doIt()");
 	}
 
 	/**
-	 * Commands müssen in der umgekehrten Reihenfolge rückgängig gemacht werden,
-	 * wie sie ausgeführt wurden! Dazu wird ein UndoRedoManager benutzt.
-	 * 
-	 * @directed true
-	 * @supplierRole Command Manager
+	 * Commands has to be undone in the reverse order
+	 * this is done with the help of an UndoRedoStack
+	 * @see de.gerdhirsch.util.undoredo.UndoRedoStack
 	 */
 	UndoRedoStack urStack = null;
 

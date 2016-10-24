@@ -40,6 +40,12 @@ public class UndoRedoStackImpl implements UndoRedoStack {
 		redoStack.clear();
 	}
 	protected int undoStackSize(){ return undoStack.size();}
+
+	@Override
+	public void clear() {
+		undoStack.clear();
+		redoStack.clear();
+	}
 	
 
 //	@SuppressWarnings("unchecked")

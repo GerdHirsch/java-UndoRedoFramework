@@ -52,5 +52,9 @@ public interface UndoRedoStack {
 	 * @see #redo()
 	 */
 	boolean isRedoable();
+	/**
+	 * clears undo and redo Stack 
+	 */
+	void clear();
 
 }

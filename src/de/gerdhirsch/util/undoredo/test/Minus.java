@@ -2,7 +2,7 @@ package de.gerdhirsch.util.undoredo.test;
 
 import de.gerdhirsch.util.undoredo.Command;
 
-public class Minus implements Command {
+public class Minus implements Command, Cloneable {
 
 	private Calculator calculator;
 	private int subtrahend;

@@ -6,7 +6,9 @@ public class Plus implements Command, Cloneable {
 
 	private Calculator calculator;
 	private int summand;
-	
+	/**
+	 * for test purposes let the command throw an exception
+	 */
 	static boolean throwException = false;
 	
 	Plus(Calculator calculator, int summand){
