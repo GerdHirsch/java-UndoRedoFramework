@@ -19,3 +19,6 @@ Tests are provided in package de.gerdhirsch.undoredo.test for
 UndoRedoManager and CompositeCommand  
 and are usage examples based on a simple Calculator and Plus and Minus Commands  
 Common Test Base is class UndoRedoTest
+
+## for hamcrest 
+read http://www.vogella.com/tutorials/Hamcrest/article.html#hamcrestoverview
