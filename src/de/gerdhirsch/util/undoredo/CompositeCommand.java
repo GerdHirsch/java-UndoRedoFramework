@@ -9,7 +9,7 @@ public interface CompositeCommand extends Command {
 	 * nothing is done but the Exception is rethrown
 	 * 
 	 * @see #undo()
-	 * @pre no Command throws an Exception
+	 * @gh.pre no Command throws an Exception
 	 * @throws Exception thrown by one of the Commands
 	 */
 	void doIt() throws Exception;
@@ -21,7 +21,7 @@ public interface CompositeCommand extends Command {
 	 * if it is called from the catch Block of doIt()
 	 * nothing is done but the Exception is rethrown
 	 * 
-	 * @pre no Command throws an Exception
+	 * @gh.pre no Command throws an Exception
 	 * @see #doIt()
 	 * @throws Exception thrown by one of the Commands
 	 */
@@ -29,9 +29,13 @@ public interface CompositeCommand extends Command {
 
 	/**
 	 * executes the Command c immediatly
-	 * if an Exception is thrown, undo is done
-	 * 
-	 * @pre no Command throws an Exception
+	 * and pushes it to the undoStack
+	 * if an Exception is thrown by the Command, 
+	 * undo is done and all Commands are removed
+	 * if undo throws an Exception, too,
+	 * this Exception is wrapped in a CannotRollbackException
+	 * @see de.gerdhirsch.util.undoredo.UndoRedoStack#clear()
+	 * @gh.pre no Command throws an Exception
 	 * @param c the Command to be executed
 	 * @throws Exception thrown by the Implementation of c
 	 */

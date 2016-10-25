@@ -4,8 +4,8 @@ public interface UndoRedoStack {
 
 	/**
 	 * undo last Command
-	 * @pre: Command don´t throw
-	 * @post: isRedoable() == true
+	 * @gh.pre  Command don´t throw
+	 * @gh.post isRedoable() == true
 	 * @see #isRedoable()
 	 * @see #isUndoable()
 	 * if Command throws an Exception, UndoRedoStack stays unchanged
@@ -16,8 +16,8 @@ public interface UndoRedoStack {
 
 	/**
 	 * redo last undone Command
-	 * @pre: Command don´t throw
-	 * @post: isUndoable() == true
+	 * @gh.pre: Command don´t throw
+	 * @gh.post: isUndoable() == true
 	 * @see #isRedoable()
 	 * @see #isUndoable()
 	 * if Command throws an Exception, UndoRedoStack stays unchanged
@@ -27,10 +27,10 @@ public interface UndoRedoStack {
 	void redo() throws Exception;
 	/**
 	 * executes Command c
-	 * @pre: Command don´t throw
-	 * @post: isModified() == true
-	 * @post: isUndoable() == true
-	 * @post: isRedoable() == false
+	 * @gh.pre: Command don´t throw
+	 * @gh.post: isModified() == true
+	 * @gh.post: isUndoable() == true
+	 * @gh.post: isRedoable() == false
 	 * if Command throws an Exception, UndoRedoStack stays unchanged
 	 * @param c the Command to be executed
 	 * @throws Exception thrown by the Command

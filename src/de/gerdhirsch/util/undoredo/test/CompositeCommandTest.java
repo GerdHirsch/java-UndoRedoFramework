@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import de.gerdhirsch.util.undoredo.CannotRollbackException;
 import de.gerdhirsch.util.undoredo.CompositeCommand;
 import de.gerdhirsch.util.undoredo.CompositeCommandImpl;
 import de.gerdhirsch.util.undoredo.UndoRedoStackImpl;
@@ -74,13 +75,14 @@ public class CompositeCommandTest extends UndoRedoTest {
 		Plus.throwException = true;
 		try{
 			ccmd.doIt(plus);
+		}catch(CannotRollbackException e){
+			System.out.println("catch testDoItCommandWithExceptioniInRollback: " + e.getMessage());
+			System.out.println("catch testDoItCommandWithExceptioniInRollback: " + e.getCause().getMessage());
+			Plus.throwException = false;
+			ccmd.undo();
 		}catch(Exception e){
 			
 		}
-		
-		Plus.throwException = false;
-		
-		ccmd.undo();
 		
 		expected = 0;
 		result = calculator.getResult(); 
@@ -104,9 +106,7 @@ public class CompositeCommandTest extends UndoRedoTest {
 			ccmd.doIt(minus);
 			ccmd.doIt(minus);
 			ccmd.doIt(plus);
-		}catch(Exception e){
-			
-		}
+		}catch(Exception e){}
 		
 		result = calculator.getResult(); 
 		assertThat(result, is(expected));

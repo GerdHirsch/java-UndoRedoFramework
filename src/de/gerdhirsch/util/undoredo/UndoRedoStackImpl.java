@@ -27,10 +27,10 @@ public class UndoRedoStackImpl implements UndoRedoStack {
 		undoStack.push(redoStack.pop());
 	}
 	/**
-	 * @pre: Command don´t throw
-	 * @post: isModified() == true
-	 * @post: isUndoable() == true
-	 * @post: isRedoable() == false
+	 * @gh.pre: Command don´t throw
+	 * @gh.post: isModified() == true
+	 * @gh.post: isUndoable() == true
+	 * @gh.post: isRedoable() == false
 	 * if Command throws an Exception, UndoRedoStack stays unchanged
 	 * @exception Exception throws the Exception of the Command c
 	 */

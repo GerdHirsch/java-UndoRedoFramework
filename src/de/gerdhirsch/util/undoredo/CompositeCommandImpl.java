@@ -6,8 +6,9 @@ import de.gerdhirsch.util.undoredo.Command;
  * @author Marci, Gerd
  */
 public class CompositeCommandImpl implements Command, CompositeCommand {
-	private boolean redoExceptionCatched;
-	private boolean undoExceptionCatched;
+	private boolean redoExceptionCatched = false;
+	private boolean undoExceptionCatched = false;
+	private boolean doItExceptionCatched = false;
 
 	public CompositeCommandImpl(UndoRedoStack urStack) {
 		// Precondition
@@ -54,6 +55,9 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 			}
 		}catch(Throwable e){
 			undoExceptionCatched = true;
+			if(doItExceptionCatched){
+				throw new CannotRollbackException("undo not possible, cause Command.undo() throws Exception see getCause()", e);
+			} 
 			if(!redoExceptionCatched){
 				doIt();
 				undoExceptionCatched = false;
@@ -79,6 +83,7 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 		try {
 			urStack.doIt(c);
 		} catch (Throwable e) {
+			doItExceptionCatched = true;
 			undo();
 			urStack.clear();
 			throw e;

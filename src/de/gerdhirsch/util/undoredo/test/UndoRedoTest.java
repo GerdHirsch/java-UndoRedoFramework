@@ -26,7 +26,6 @@ public class UndoRedoTest {
 	 * Plus.throwException = false;
 	 * calculator.clear();
 	 * urMngr = new ...
-	 * @throws 
 	 */
 	@Before
 	public void setUp() {
