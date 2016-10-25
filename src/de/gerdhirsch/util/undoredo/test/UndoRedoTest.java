@@ -12,7 +12,7 @@ import de.gerdhirsch.util.undoredo.UndoRedoManagerImpl;
 public class UndoRedoTest {
 
 	protected final Calculator calculator = new Calculator();
-	protected final int plusValue = 2;
+	protected final int plusValue = 3;
 	protected final Plus plus = new Plus(calculator, plusValue );
 	protected final int minusValue = 1;
 	protected final Minus minus = new Minus(calculator, minusValue );

@@ -15,6 +15,7 @@ public class Plus implements Command, Cloneable {
 		this.calculator = calculator;
 		this.summand = summand;
 	}
+	
 	@Override
 	public void doIt() throws Exception {
 		if(throwException) throw new Exception("Plus.doIt()");
@@ -26,6 +27,8 @@ public class Plus implements Command, Cloneable {
 		if(throwException) throw new Exception("Plus.doIt()");
 		calculator.minus(summand);
 	}
+	
+	@Override
 	public Plus clone() throws CloneNotSupportedException{
 		return (Plus) super.clone();
 	}

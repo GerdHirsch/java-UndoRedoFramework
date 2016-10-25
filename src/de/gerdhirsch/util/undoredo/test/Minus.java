@@ -19,6 +19,7 @@ public class Minus implements Command, Cloneable {
 	public void undo() throws Exception {
 		calculator.plus(subtrahend);
 	}
+	@Override
 	public Minus clone() throws CloneNotSupportedException{
 		return (Minus) super.clone();
 	}

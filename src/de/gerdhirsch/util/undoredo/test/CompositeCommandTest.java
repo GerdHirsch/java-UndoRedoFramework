@@ -54,6 +54,41 @@ public class CompositeCommandTest extends UndoRedoTest {
 	}
 
 	/**
+	 * tests Exception in rollback of commands
+	 * @throws Exception thrown by the Commands
+	 */
+	@Test
+	public final void testDoItCommandWithExceptionInRollback() throws Exception {
+		int expected = 0; 
+		int result = calculator.getResult(); 
+		assertThat(result, is(expected));
+		
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in rollback
+		ccmd.doIt(minus);
+		
+		expected = plusValue-(minusValue+minusValue);
+		result = calculator.getResult(); 
+		assertThat(result, is(expected));
+		
+		Plus.throwException = true;
+		try{
+			ccmd.doIt(plus);
+		}catch(Exception e){
+			
+		}
+		
+		Plus.throwException = false;
+		
+		ccmd.undo();
+		
+		expected = 0;
+		result = calculator.getResult(); 
+		assertThat(result, is(expected));
+		
+		
+	}
+	/**
 	 * tests the rollback all commands done bevor the Exception is thrown
 	 * @throws Exception thrown by the Commands
 	 */
@@ -62,20 +97,28 @@ public class CompositeCommandTest extends UndoRedoTest {
 		Plus.throwException = true;
 		
 		int expected = 0; 
-		assertThat(calculator.getResult(), is(expected));
+		int result = calculator.getResult(); 
+		assertThat(result, is(expected));
 		
 		try{
 			ccmd.doIt(minus);
 			ccmd.doIt(minus);
 			ccmd.doIt(plus);
 		}catch(Exception e){
-//			System.out.println("testDoItCommandWithException: " + e.getMessage());
+			
 		}
-		assertThat(calculator.getResult(), is(expected));
+		
+		result = calculator.getResult(); 
+		assertThat(result, is(expected));
+		
 		urMngr.doIt(ccmd);
-		assertThat(calculator.getResult(), is(expected));
+		
+		result = calculator.getResult(); 
+		assertThat(result, is(expected));
 		urMngr.undo();
-		assertThat(calculator.getResult(), is(expected));
+		
+		result = calculator.getResult(); 
+		assertThat(result, is(expected));
 	}
 
 	@Test
@@ -102,35 +145,51 @@ public class CompositeCommandTest extends UndoRedoTest {
 	@Test
 	public final void testUndoWithException() throws Exception {
 		int expected = 0;
-		ccmd.doIt(minus);
+		int result = calculator.getResult();
+		assertThat(result, is(expected));
+
 		ccmd.doIt(minus);
 		ccmd.doIt(plus);
+		ccmd.doIt(minus);
 		urMngr.doIt(ccmd);
 		
 		expected = plusValue - (minusValue+minusValue);
-		assertThat(calculator.getResult(), is(expected));
+		result = calculator.getResult();
+		assertThat(result, is(expected));
 		
 		Plus.throwException = true;
 		try{
 			urMngr.undo();
 		}catch(Exception e){}
 		
-		assertThat(calculator.getResult(), is(expected));
+		result = calculator.getResult();
+		assertThat(result, is(expected));
 		
 		Plus.throwException = false;
 		
 		urMngr.undo();
 
 		expected = 0;
-		assertThat(calculator.getResult(), is(expected));
+		result = calculator.getResult();
+		assertThat(result, is(expected));
+		
+		//check a second Exception
+		Plus.throwException = true;
+		
+		try{
+			urMngr.redo();
+		}catch(Exception e){}
+		
+		result = calculator.getResult();
+		assertThat(result, is(expected));
 	}
 	
 	@Test
 	public final void testRedoWithException() throws Exception {
 		int expected = 0;
 		ccmd.doIt(minus);
-		ccmd.doIt(minus);
 		ccmd.doIt(plus);
+		ccmd.doIt(minus);
 		urMngr.doIt(ccmd);
 		
 		expected = plusValue - (minusValue+minusValue);
@@ -154,6 +213,14 @@ public class CompositeCommandTest extends UndoRedoTest {
 		urMngr.redo();
 
 		expected = plusValue - (minusValue+minusValue);
+		assertThat(calculator.getResult(), is(expected));
+		
+		Plus.throwException = true;
+		
+		try{
+			urMngr.undo();
+		}catch(Exception e){}
+		
 		assertThat(calculator.getResult(), is(expected));
 	}
 	

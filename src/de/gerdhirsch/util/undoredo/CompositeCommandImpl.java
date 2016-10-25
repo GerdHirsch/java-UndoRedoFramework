@@ -6,7 +6,6 @@ import de.gerdhirsch.util.undoredo.Command;
  * @author Marci, Gerd
  */
 public class CompositeCommandImpl implements Command, CompositeCommand {
-	private boolean exceptionCatched;
 	private boolean redoExceptionCatched;
 	private boolean undoExceptionCatched;
 
@@ -33,9 +32,12 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 			redoExceptionCatched = true;
 			if(!undoExceptionCatched){
 				undo();
+				redoExceptionCatched = false;
 				throw e;
-			}else
+			}else{
+				undoExceptionCatched = false;
 				throw e;
+			}
 		}
 	}
 
@@ -54,12 +56,14 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 			undoExceptionCatched = true;
 			if(!redoExceptionCatched){
 				doIt();
+				undoExceptionCatched = false;
 				throw e;
-			}else
+			}else{
+				redoExceptionCatched = false;
 				throw e;
+			}
 		}
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -67,6 +71,8 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 	 * @see
 	 * de.gerdhirsch.util.undoredo.CompositeCommand#doIt(de.gerdhirsch.util.
 	 * undoredo.Command)
+	 * @see
+	 * javax.swing.undo.CannotUndo/RedoException
 	 */
 	@Override
 	public void doIt(Command c) throws Exception {
