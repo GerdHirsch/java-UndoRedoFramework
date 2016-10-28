@@ -1,6 +1,6 @@
 package de.gerdhirsch.util.undoredo.test;
 
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import de.gerdhirsch.util.undoredo.CannotRollbackException;
+import de.gerdhirsch.util.undoredo.CommandException;
 import de.gerdhirsch.util.undoredo.CompositeCommand;
 import de.gerdhirsch.util.undoredo.CompositeCommandImpl;
 import de.gerdhirsch.util.undoredo.UndoRedoStackImpl;
@@ -46,50 +47,14 @@ public class CompositeCommandTest extends UndoRedoTest {
 		urMngr.doIt(ccmd);
 		
 		int expected = plusValue-minusValue; 
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		
 		urMngr.doIt(plus);
 		
 		expected += plusValue;
-		assertThat(calculator.getResult(), is(expected));	
+		assertThat(calculator.getResult(), equalTo(expected));	
 	}
 
-	/**
-	 * tests Exception in rollback of commands
-	 * @throws Exception thrown by the Commands
-	 */
-	@Test
-	public final void testDoItCommandWithExceptionInRollback() throws Exception {
-		int expected = 0; 
-		int result = calculator.getResult(); 
-		assertThat(result, is(expected));
-		
-		ccmd.doIt(minus);
-		ccmd.doIt(plus); // throws in rollback
-		ccmd.doIt(minus);
-		
-		expected = plusValue-(minusValue+minusValue);
-		result = calculator.getResult(); 
-		assertThat(result, is(expected));
-		
-		Plus.throwException = true;
-		try{
-			ccmd.doIt(plus);
-		}catch(CannotRollbackException e){
-			System.out.println("catch testDoItCommandWithExceptioniInRollback: " + e.getMessage());
-			System.out.println("catch testDoItCommandWithExceptioniInRollback: " + e.getCause().getMessage());
-			Plus.throwException = false;
-			ccmd.undo();
-		}catch(Exception e){
-			
-		}
-		
-		expected = 0;
-		result = calculator.getResult(); 
-		assertThat(result, is(expected));
-		
-		
-	}
 	/**
 	 * tests the rollback all commands done bevor the Exception is thrown
 	 * @throws Exception thrown by the Commands
@@ -100,7 +65,7 @@ public class CompositeCommandTest extends UndoRedoTest {
 		
 		int expected = 0; 
 		int result = calculator.getResult(); 
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 		
 		try{
 			ccmd.doIt(minus);
@@ -109,16 +74,16 @@ public class CompositeCommandTest extends UndoRedoTest {
 		}catch(Exception e){}
 		
 		result = calculator.getResult(); 
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 		
 		urMngr.doIt(ccmd);
 		
 		result = calculator.getResult(); 
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 		urMngr.undo();
 		
 		result = calculator.getResult(); 
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 	}
 
 	@Test
@@ -130,32 +95,28 @@ public class CompositeCommandTest extends UndoRedoTest {
 		urMngr.doIt(ccmd);
 		
 		expected = plusValue - minusValue;
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		
 		urMngr.undo();
 		
 		expected = 0;
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		urMngr.redo();
 		
 		expected = plusValue - minusValue;
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 	}
 	
 	@Test
 	public final void testUndoWithException() throws Exception {
-		int expected = 0;
-		int result = calculator.getResult();
-		assertThat(result, is(expected));
-
 		ccmd.doIt(minus);
-		ccmd.doIt(plus);
+		ccmd.doIt(plus); // throws in undo
 		ccmd.doIt(minus);
 		urMngr.doIt(ccmd);
 		
-		expected = plusValue - (minusValue+minusValue);
-		result = calculator.getResult();
-		assertThat(result, is(expected));
+		int expected = plusValue - (minusValue+minusValue);
+		int result = calculator.getResult();
+		assertThat(result, equalTo(expected));
 		
 		Plus.throwException = true;
 		try{
@@ -163,15 +124,16 @@ public class CompositeCommandTest extends UndoRedoTest {
 		}catch(Exception e){}
 		
 		result = calculator.getResult();
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 		
 		Plus.throwException = false;
 		
+		assertThat(urMngr.isUndoable(), equalTo(true));
 		urMngr.undo();
 
 		expected = 0;
 		result = calculator.getResult();
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 		
 		//check a second Exception
 		Plus.throwException = true;
@@ -181,7 +143,7 @@ public class CompositeCommandTest extends UndoRedoTest {
 		}catch(Exception e){}
 		
 		result = calculator.getResult();
-		assertThat(result, is(expected));
+		assertThat(result, equalTo(expected));
 	}
 	
 	@Test
@@ -193,12 +155,12 @@ public class CompositeCommandTest extends UndoRedoTest {
 		urMngr.doIt(ccmd);
 		
 		expected = plusValue - (minusValue+minusValue);
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		
 		urMngr.undo();
 		
 		expected = 0;
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 
 		Plus.throwException = true;
 
@@ -206,14 +168,14 @@ public class CompositeCommandTest extends UndoRedoTest {
 			urMngr.redo();
 		}catch(Exception e){}
 		
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		
 		Plus.throwException = false;
 		
 		urMngr.redo();
 
 		expected = plusValue - (minusValue+minusValue);
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 		
 		Plus.throwException = true;
 		
@@ -221,30 +183,115 @@ public class CompositeCommandTest extends UndoRedoTest {
 			urMngr.undo();
 		}catch(Exception e){}
 		
-		assertThat(calculator.getResult(), is(expected));
+		assertThat(calculator.getResult(), equalTo(expected));
 	}
 	
 	@Test()
-	public final void testdoItException() throws Exception {
+	public final void testdoItExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		Plus.throwException = true;
 		ccmd.doIt(plus);
 	}
 	
 	@Test()
-	public final void testUndoException() throws Exception {
+	public final void testUndoExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		ccmd.doIt(plus);
+		urMngr.doIt(ccmd);
 		Plus.throwException = true;
-		ccmd.undo();
+		urMngr.undo();
 	}
-	
 	@Test()
-	public final void testRedoException() throws Exception {
+	public final void testRedoExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		ccmd.doIt(plus);
-		ccmd.undo();
+		urMngr.doIt(ccmd);
+		urMngr.undo();
 		Plus.throwException = true;
-		ccmd.doIt();
+		urMngr.redo();
+	}
+
+	/**
+	 * tests Exception in rollback of commands
+	 * @throws Exception thrown by the Commands
+	 */
+	@Test
+	public final void testDoItCommandWithExceptionInRollback() throws Exception {
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in rollback
+		ccmd.doIt(minus);
+		
+		Plus.throwException = true;
+		try{
+			ccmd.doIt(plus);
+		}catch(CannotRollbackException e){
+			Class<?> resultClazz = e.getCause().getClass();
+			Class<?> expectedClazz = CommandException.class;
+			
+			assertThat(resultClazz, equalTo(expectedClazz));
+			
+			int result = calculator.getResult();
+			int expected = 2;
+			assertThat(result, equalTo(expected));
+			
+			Plus.throwException = false;
+			ccmd.undo();
+			
+			result = calculator.getResult();
+			expected = 0;
+			assertThat(result, equalTo(expected));
+		}
+	}
+	/**
+	 * tests Exception in rollback of commands
+	 * @throws Exception thrown by the Commands
+	 */
+	@Test
+	public final void testDoItThrowsCannotRollback() throws Exception {
+		thrown.expect(CannotRollbackException.class);
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in rollback
+		ccmd.doIt(minus);
+		
+		Plus.throwException = true;
+		ccmd.doIt(plus);
+	}
+
+	/**
+	 * tests Exception in rollback of commands
+	 * @throws Exception thrown by the Commands
+	 */
+	@Test
+	public final void testUndoThrowsCannotRollback() throws Exception {
+		thrown.expect(CannotRollbackException.class);
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in undo
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in rollback
+		urMngr.doIt(ccmd);
+		
+		Plus.throwException = true;
+		Plus.throwAtTimes = 1;
+
+		urMngr.undo();
+	}
+	/**
+	 * tests Exception in rollback of commands
+	 * @throws Exception thrown by the Commands
+	 */
+	@Test
+	public final void testRedoThrowsCannotRollback() throws Exception {
+		thrown.expect(CannotRollbackException.class);
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in doIt
+		ccmd.doIt(minus);
+		ccmd.doIt(plus); // throws in rollback
+		urMngr.doIt(ccmd);
+		urMngr.undo();
+		
+		Plus.throwException = true;
+		Plus.throwAtTimes = 1;
+		
+		urMngr.redo();
 	}
 }

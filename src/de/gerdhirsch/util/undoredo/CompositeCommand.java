@@ -9,6 +9,7 @@ public interface CompositeCommand extends Command {
 	 * nothing is done but the Exception is rethrown
 	 * 
 	 * @see #undo()
+	 * @see CannotRollbackException
 	 * @gh.pre no Command throws an Exception
 	 * @throws Exception thrown by one of the Commands
 	 */
@@ -23,6 +24,7 @@ public interface CompositeCommand extends Command {
 	 * 
 	 * @gh.pre no Command throws an Exception
 	 * @see #doIt()
+	 * @see CannotRollbackException
 	 * @throws Exception thrown by one of the Commands
 	 */
 	void undo() throws Exception;
@@ -36,6 +38,7 @@ public interface CompositeCommand extends Command {
 	 * this Exception is wrapped in a CannotRollbackException
 	 * @see de.gerdhirsch.util.undoredo.UndoRedoStack#clear()
 	 * @gh.pre no Command throws an Exception
+	 * @see CannotRollbackException
 	 * @param c the Command to be executed
 	 * @throws Exception thrown by the Implementation of c
 	 */

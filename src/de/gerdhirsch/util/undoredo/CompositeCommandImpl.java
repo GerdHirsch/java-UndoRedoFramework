@@ -30,13 +30,14 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 					urStack.redo();
 			}
 		}catch(Throwable e){
-			redoExceptionCatched = true;
-			if(!undoExceptionCatched){
-				undo();
-				redoExceptionCatched = false;
-				throw e;
-			}else{
+			doItExceptionCatched = true;
+			
+			if(undoExceptionCatched){
 				undoExceptionCatched = false;
+				throw new CannotRollbackException("undo not possible, cause Command.doIt() throws Exception see getCause()", e);
+			}else{
+				undo();
+				doItExceptionCatched = false;
 				throw e;
 			}
 		}
@@ -56,14 +57,11 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 		}catch(Throwable e){
 			undoExceptionCatched = true;
 			if(doItExceptionCatched){
-				throw new CannotRollbackException("undo not possible, cause Command.undo() throws Exception see getCause()", e);
-			} 
-			if(!redoExceptionCatched){
+				doItExceptionCatched = false;
+				throw new CannotRollbackException("doIt not possible, cause Command.undo() throws Exception see getCause()", e);
+			}else{
 				doIt();
 				undoExceptionCatched = false;
-				throw e;
-			}else{
-				redoExceptionCatched = false;
 				throw e;
 			}
 		}
@@ -88,7 +86,6 @@ public class CompositeCommandImpl implements Command, CompositeCommand {
 			urStack.clear();
 			throw e;
 		}
-//		System.out.println("CompositeCommandImpl.doIt()");
 	}
 
 	/**
