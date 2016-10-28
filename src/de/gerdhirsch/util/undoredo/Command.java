@@ -12,7 +12,7 @@ public interface Command {
 	void doIt() throws Exception;
 
 	/**
-	 * revert the Command
+	 * reverts the Command
 	 * @throws Exception thrown by the Implementation
 	 */
 	void undo() throws Exception;

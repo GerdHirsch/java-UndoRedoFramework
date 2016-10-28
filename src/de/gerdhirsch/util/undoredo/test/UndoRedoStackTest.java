@@ -64,6 +64,9 @@ public class UndoRedoStackTest extends UndoRedoTest {
 		
 		assertThat(urMngr.isUndoable(), is(true));
 		assertThat(urMngr.isRedoable(), is(false));
+		
+		Plus.throwException = false;
+		urMngr.undo();
 	}
 
 	@Test

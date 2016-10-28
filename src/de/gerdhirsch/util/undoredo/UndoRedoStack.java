@@ -1,14 +1,22 @@
 package de.gerdhirsch.util.undoredo;
 
+/*
+ * @autor gerd
+ */
+/**
+ * Two Stacks to manage Commands. 
+ * @gh.inv exception neutral: should be always in a valid state
+ * and throws all exception thrown by the commands.
+ */
 public interface UndoRedoStack {
 
 	/**
 	 * undo last Command
-	 * @gh.pre  Command don´t throw
+	 * @gh.pre  Command don´t throw.
+	 * If Command throws an Exception, UndoRedoStack stays unchanged
 	 * @gh.post isRedoable() == true
 	 * @see #isRedoable()
 	 * @see #isUndoable()
-	 * if Command throws an Exception, UndoRedoStack stays unchanged
 	 * @throws Exception thrown by the Command
 	 * @see #redo()
 	 */
@@ -16,24 +24,25 @@ public interface UndoRedoStack {
 
 	/**
 	 * redo last undone Command
-	 * @gh.pre: Command don´t throw
-	 * @gh.post: isUndoable() == true
+	 * @gh.pre Command don´t throw.
+	 * if Command throws an Exception, UndoRedoStack stays unchanged
+	 * @gh.post isUndoable() == true
 	 * @see #isRedoable()
 	 * @see #isUndoable()
-	 * if Command throws an Exception, UndoRedoStack stays unchanged
 	 * @throws Exception thrown by the Command
 	 * @see #undo()
 	 */
 	void redo() throws Exception;
 	/**
 	 * executes Command c
-	 * @gh.pre: Command don´t throw
-	 * @gh.post: isModified() == true
-	 * @gh.post: isUndoable() == true
-	 * @gh.post: isRedoable() == false
-	 * if Command throws an Exception, UndoRedoStack stays unchanged
+	 * @gh.pre Command don´t throw.
+	 * If Command throws an Exception, UndoRedoStack stays unchanged
+	 * @gh.post isUndoable() == true
+	 * @gh.post isRedoable() == false
 	 * @param c the Command to be executed
 	 * @throws Exception thrown by the Command
+	 * @see #isUndoable()
+	 * @see #isRedoable()
 	 */
 	void doIt(Command c) throws Exception;
 
@@ -41,6 +50,7 @@ public interface UndoRedoStack {
 	 * @return true after doIt(Command c) or redo()
 	 * @see #doIt(Command c)
 	 * @see #redo()
+	 * 
 	 */
 	boolean isUndoable();
 
@@ -56,5 +66,4 @@ public interface UndoRedoStack {
 	 * clears undo and redo Stack 
 	 */
 	void clear();
-
 }

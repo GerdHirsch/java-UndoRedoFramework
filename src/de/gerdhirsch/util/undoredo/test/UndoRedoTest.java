@@ -24,12 +24,14 @@ public class UndoRedoTest {
 		
 	/**
 	 * Plus.throwException = false;
+	 * Plus.throwAtTimes = 0;
 	 * calculator.clear();
 	 * urMngr = new ...
 	 */
 	@Before
 	public void setUp() {
 		Plus.throwException = false;
+		Plus.throwAtTimes = 0;
 		calculator.clear();
 		urMngr = new UndoRedoManagerImpl();
 	}
