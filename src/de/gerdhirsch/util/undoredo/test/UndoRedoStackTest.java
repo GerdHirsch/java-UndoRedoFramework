@@ -13,15 +13,27 @@ public class UndoRedoStackTest extends UndoRedoTest {
 
 	@Test
 	public final void testDoIt() throws Exception {
+		int result = calculator.getResult();
+		int expected = 0;
+		assertThat(result, is(expected));
+		assertThat(urMngr.isUndoable(), is(false));
+		assertThat(urMngr.isRedoable(), is(false));
+		
 		urMngr.doIt(plus);
-
-		assertThat(calculator.getResult(), is(plusValue));
+		expected = plusValue;
+		result = calculator.getResult();
+		assertThat(result, is(expected));
 		assertThat(urMngr.isUndoable(), is(true));
 		assertThat(urMngr.isRedoable(), is(false));
 	}
 	@Test
 	public final void testDoItWithException() throws Exception {
 		Plus.throwException = true;
+		
+		int result = calculator.getResult();
+		int expected = 0;
+		assertThat(calculator.getResult(), is(expected));
+		
 		try{
 			urMngr.doIt(plus);
 		}catch(Exception e){}

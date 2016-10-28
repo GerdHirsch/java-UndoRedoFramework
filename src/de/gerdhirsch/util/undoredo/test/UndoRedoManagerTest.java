@@ -156,14 +156,14 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 	public ExpectedException thrown = ExpectedException.none();
 	
 	@Test()
-	public final void testdoItException() throws Exception {
+	public final void testdoItExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		Plus.throwException = true;
 		urMngr.doIt(plus);
 	}
 	
 	@Test()
-	public final void testUndoException() throws Exception {
+	public final void testUndoExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		urMngr.doIt(plus);
 		Plus.throwException = true;
@@ -171,7 +171,7 @@ public class UndoRedoManagerTest extends UndoRedoTest {
 	}
 	
 	@Test()
-	public final void testRedoException() throws Exception {
+	public final void testRedoExceptionNeutral() throws Exception {
 		thrown.expect(Exception.class);
 		urMngr.doIt(plus);
 		urMngr.undo();
