@@ -39,7 +39,7 @@ public interface CompositeCommand extends Command {
 	 * executes the Command c immediatly
 	 * and pushes it to the undoStack.
 	 * If an Exception is thrown by the Command, 
-	 * undo is done and all Commands are removed.
+	 * undo is done and all Commands are removed (clear()).
 	 * If undo throws an Exception, too,
 	 * this Exception is wrapped in a CannotRollbackException.
 	 * @see de.gerdhirsch.util.undoredo.UndoRedoStack#clear()
