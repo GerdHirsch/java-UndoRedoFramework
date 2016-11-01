@@ -6,7 +6,6 @@ import de.gerdhirsch.util.undoredo.Command;
  * @author Marci, Gerd
  */
 public class CompositeCommandImpl implements Command, CompositeCommand {
-	private boolean redoExceptionCatched = false;
 	private boolean undoExceptionCatched = false;
 	private boolean doItExceptionCatched = false;
 
