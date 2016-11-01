@@ -35,6 +35,7 @@ public class UndoRedoStackImpl implements UndoRedoStack {
 	 * @exception Exception throws the Exception of the Command c
 	 */
 	public void doIt(Command c) throws Exception {
+		if(c == null) throw new IllegalArgumentException("c must not be null!");
 		c.doIt();
 		undoStack.push(c);
 		redoStack.clear();

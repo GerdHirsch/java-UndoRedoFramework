@@ -12,6 +12,7 @@ public interface UndoRedoStack {
 
 	/**
 	 * undo last Command
+	 * @gh.pre isUndoable() == true else throws EmptyStackException
 	 * @gh.pre  Command don´t throw.
 	 * If Command throws an Exception, UndoRedoStack stays unchanged
 	 * @gh.post isRedoable() == true
@@ -24,6 +25,7 @@ public interface UndoRedoStack {
 
 	/**
 	 * redo last undone Command
+	 * @gh.pre isRedoable() == true else throws EmptyStackException
 	 * @gh.pre Command don´t throw.
 	 * if Command throws an Exception, UndoRedoStack stays unchanged
 	 * @gh.post isUndoable() == true
@@ -35,6 +37,7 @@ public interface UndoRedoStack {
 	void redo() throws Exception;
 	/**
 	 * executes Command c
+	 * @gh.pre Command c must not be null
 	 * @gh.pre Command don´t throw.
 	 * If Command throws an Exception, UndoRedoStack stays unchanged
 	 * @gh.post isUndoable() == true

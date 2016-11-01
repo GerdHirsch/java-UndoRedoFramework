@@ -71,7 +71,7 @@ public class CompositeCommandTest extends UndoRedoTest {
 			ccmd.doIt(minus);
 			ccmd.doIt(minus);
 			ccmd.doIt(plus);
-		}catch(Exception e){}
+		}catch(CommandException e){}
 		
 		result = calculator.getResult(); 
 		assertThat(result, equalTo(expected));
