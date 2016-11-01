@@ -26,7 +26,6 @@ public interface CompositeCommand extends Command {
 	 * 
 	 * @gh.pre no Command throws an Exception
 	 * @see #doIt()
-	 * @see #doIt(Command c)
 	 * @see CannotRollbackException
 	 * @throws Exception thrown by one of the Commands
 	 * @throws CannotRollbackException 
