@@ -12,7 +12,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	}
 
 	@Test
-	public final void testDoIt() throws Exception {
+	public final void DoIt() throws Exception {
 		int result = calculator.getResult();
 		int expected = 0;
 		assertThat(result, is(expected));
@@ -27,7 +27,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 		assertThat(urMngr.isRedoable(), is(false));
 	}
 	@Test
-	public final void testDoItWithException() throws Exception {
+	public final void DoItWithException() throws Exception {
 		Plus.throwException = true;
 		
 		int result = calculator.getResult();
@@ -43,7 +43,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	}
 
 	@Test
-	public final void testUndo() throws Exception{
+	public final void Undo() throws Exception{
 		urMngr.doIt(plus);
 		urMngr.undo();
 		
@@ -53,7 +53,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 		assertThat(urMngr.isRedoable(), is(true));
 	}
 	@Test
-	public final void testUndoWithException() throws Exception {
+	public final void UndoWithException() throws Exception {
 		urMngr.doIt(plus);
 		Plus.throwException = true;
 		try{
@@ -70,7 +70,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	}
 
 	@Test
-	public final void testRedo() throws Exception {
+	public final void Redo() throws Exception {
 		urMngr.doIt(plus);
 		urMngr.undo();
 		
@@ -88,7 +88,7 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	}
 	
 	@Test
-	public final void testRedoWithException() throws Exception {
+	public final void RedoWithException() throws Exception {
 		urMngr.doIt(plus);
 		urMngr.undo();
 		Plus.throwException = true;
@@ -103,13 +103,13 @@ public class UndoRedoStackTest extends UndoRedoTest {
 	}
 
 	@Test
-	public final void testIsUndoable() throws Exception {
+	public final void IsUndoable() throws Exception {
 		urMngr.doIt(plus);
 		assertThat(urMngr.isUndoable(), is(true));
 	}
 
 	@Test
-	public final void testIsRedoable() throws Exception {
+	public final void IsRedoable() throws Exception {
 		urMngr.doIt(plus);
 		urMngr.undo();
 		assertThat(urMngr.isRedoable(), is(true));
